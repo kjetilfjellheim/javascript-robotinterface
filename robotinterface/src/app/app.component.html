@@ -1,0 +1,18 @@
+<p-tabView>
+  <p-tabPanel header="Config">
+    <span class="p-float-label">
+      <input id="float-input" type="text" [(ngModel)]="server" placeholder="Server" (ngModelChange)="onServerChange()" pInputText>
+    </span>
+    <button pButton type="button" label="Test" (click)="testServer()" [ngClass]="{'p-button-success': serverTestedSuccess, 'p-button-danger': !serverTestedSuccess}"></button>
+  </p-tabPanel>
+  <p-tabPanel header="Commands">
+    <p-dropdown [options]="commands" [(ngModel)]="selectedCommand" optionLabel="name" optionValue="code" emptyMessage="Select command"></p-dropdown>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">Time</span>
+      <input type="text" pInputText placeholder="In seconds">
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Logs">
+
+  </p-tabPanel>
+</p-tabView>
