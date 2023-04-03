@@ -6,11 +6,25 @@
     <button pButton type="button" label="Test" (click)="testServer()" [ngClass]="{'p-button-success': serverTestedSuccess, 'p-button-danger': !serverTestedSuccess}"></button>
   </p-tabPanel>
   <p-tabPanel header="Commands">
-    <p-dropdown [options]="commands" [(ngModel)]="selectedCommand" optionLabel="name" optionValue="code" emptyMessage="Select command"></p-dropdown>
+    <p-dropdown [options]="commands" [(ngModel)]="selectedCommand" optionLabel="name" optionValue="code" emptyMessage="Select command" (ngModelChange)="onCommandChange()"></p-dropdown>
     <div class="p-inputgroup">
+      <p-radioButton name="Time" value="Time" [(ngModel)]="dirTime"></p-radioButton>
       <span class="p-inputgroup-addon">Time</span>
       <input type="text" pInputText placeholder="In seconds">
     </div>
+    <div class="p-inputgroup">
+      <p-radioButton name="Direction" value="Direction" [(ngModel)]="dirTime" [disabled]="speedSynchronized"></p-radioButton>
+      <span class="p-inputgroup-addon">Direction</span>
+      <input type="text" pInputText placeholder="In degrees" [disabled]="speedSynchronized">
+    </div>
+    <p>Speed left track: {{speedLeftTrack}}</p>
+    <p-slider [(ngModel)]="speedLeftTrack" [min]="-100" [max]="100" (ngModelChange)="onSpeedChange($event)"></p-slider>
+    <p>Speed right track: {{speedRightTrack}}</p>
+    <p-slider [(ngModel)]="speedRightTrack" [min]="-100" [max]="100" (ngModelChange)="onSpeedChange($event)"></p-slider>
+    <p>Max pitch: {{maxPitch}}</p>
+    <p-slider [(ngModel)]="maxPitch" [min]="0" [max]="90"></p-slider>
+    <p>Max roll: {{maxRoll}}</p>
+    <p-slider [(ngModel)]="maxRoll" [min]="0" [max]="90"></p-slider>
   </p-tabPanel>
   <p-tabPanel header="Logs">
 

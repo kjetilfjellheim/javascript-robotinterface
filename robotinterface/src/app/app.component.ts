@@ -6,21 +6,24 @@ import { Component,OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  speedRightValue: number = 0;
-  speedLeftValue: number = 0;
-  selectedCommand: Command;
+
+  selectedCommand: COMMAND;
   commands: Command[];
   server: string = "";
   serverTestedSuccess: boolean = false;
+  speedRightTrack: number = 0;
+  speedLeftTrack: number = 0;
+  speedSynchronized = true;
+  dirTime: string = "Time";
+  maxRoll: number = 0;
+  maxPitch: number = 0;
 
   constructor() {
     this.commands = [
-      { name: 'Forward', code: 'Forward'},
-      { name: 'Reverse', code: 'Reverse'},
-      { name: 'Turn', code: 'Turn'},
-      { name: 'Rotate', code: 'Rotate'}
+      { name: 'Forward/Reverse', code: COMMAND.FORWARD_REVERSE },
+      { name: 'Turn/Rotate', code: COMMAND.TURN_ROTATE }
     ];
-    this.selectedCommand = this.commands[0];
+    this.selectedCommand = COMMAND.FORWARD_REVERSE;
   }
 
   ngOnInit() {
@@ -34,9 +37,31 @@ export class AppComponent implements OnInit {
     this.serverTestedSuccess = false;
   }
 
+  onCommandChange() {
+    if (COMMAND.FORWARD_REVERSE === this.selectedCommand) {
+      this.speedSynchronized = true;
+      this.speedLeftTrack = this.speedRightTrack;
+      this.dirTime = "Time";
+    } else {
+      this.speedSynchronized = false;
+    }
+  }
+
+  onSpeedChange(val: number) {
+    if (this.speedSynchronized) {
+      this.speedLeftTrack = val;
+      this.speedRightTrack = val;
+    }
+  }
+
 }
 
 interface Command {
   name: string,
-  code: string
+  code: COMMAND
+}
+
+enum COMMAND {
+  FORWARD_REVERSE,
+  TURN_ROTATE
 }
